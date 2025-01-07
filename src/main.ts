@@ -12,8 +12,8 @@ async function bootstrap() {
 	const appConfig = configService.get<AppConfig>('app')
 
 	const config = new DocumentBuilder()
-		.setTitle('pub')
-		.setDescription('The pub API description')
+		.setTitle('Pub')
+		.setDescription('The Pub API description')
 		.setVersion('1.0')
 		.addTag('API')
 		.addBearerAuth({

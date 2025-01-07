@@ -31,13 +31,13 @@ export class VenueController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     @RoleUser(UserRoleEnum.ADMIN)
     @Post()
-    async create(@Body() createVenueDto: CreateVenueDto) {
-        return await this.venueService.create(createVenueDto);
+    public async create(@Body() dto: CreateVenueDto) {
+        return await this.venueService.create(dto);
     }
 
     @ApiOperation({ summary: 'Get all venues' })
     @Get()
-    async findAll(
+    public async findAll(
         @Query('search') search?: string,
         @Query('tags') tags?: string[],
         @Query('averageCheck') averageCheck?: number,

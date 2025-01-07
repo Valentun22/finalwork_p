@@ -18,5 +18,5 @@ export class CreateNewsDto {
     @ApiProperty()
     @IsInt()
     @IsNotEmpty()
-    readonly venueId: number;
+    readonly venueId: string;
 }

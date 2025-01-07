@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsOptional, IsEnum, IsInt } from 'class-validator';
 import {StatusTypeEnum} from "../../../../database/enums/status-type.enum";
+import {StatisticEntity} from "../../../../database/entities/statistic.entity";
+import {Type} from "class-transformer";
 
 export class CreateSignboardDto {
   @ApiProperty({
@@ -24,14 +26,14 @@ export class CreateSignboardDto {
   })
   @IsString()
   @IsOptional()
-  readonly description?: string;
+  readonly description: string;
 
   @ApiProperty({
     description: 'Signage image URL',
   })
   @IsString()
   @IsOptional()
-  readonly image?: string;
+  readonly image: string;
 
   @ApiProperty({
     description: 'Status of the sign',
@@ -45,17 +47,17 @@ export class CreateSignboardDto {
     description: 'The ID of the user who created the banner',
     example: 1,
   })
-  @IsInt()
+  @IsString()
   @IsNotEmpty()
-  readonly userId: number;
+  readonly userId: string;
 
   @ApiProperty({
     description: 'The ID of the location associated with the sign',
     example: 2,
   })
-  @IsInt()
+  @IsString()
   @IsNotEmpty()
-  readonly venueId: number;
+  readonly venueId: string;
 
   @ApiProperty({
     description: 'The number of views of the sign',
@@ -63,7 +65,8 @@ export class CreateSignboardDto {
   })
   @IsInt()
   @IsOptional()
-  readonly views?: number;
+  @Type(() => StatisticEntity)
+  readonly views?: StatisticEntity[];
 
   @ApiProperty({
     description: 'Additional information about the sign',

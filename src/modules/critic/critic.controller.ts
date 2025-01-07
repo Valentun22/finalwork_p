@@ -19,8 +19,8 @@ export class CriticController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     @RoleUser(UserRoleEnum.ADMIN)
     @Post()
-    create(@Body() createCriticDto: CreateCriticDto) {
-        return this.criticService.create(createCriticDto);
+    create(@Body() dto: CreateCriticDto) {
+        return this.criticService.create(dto);
     }
 
     @ApiOperation({ summary: 'Get all critics' })
@@ -43,8 +43,8 @@ export class CriticController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     @RoleUser(UserRoleEnum.ADMIN)
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateCriticDto: UpdateCriticDto) {
-        return this.criticService.update(id, updateCriticDto);
+    update(@Param('id') id: string, @Body() dto: UpdateCriticDto) {
+        return this.criticService.update(id, dto);
     }
 
     @ApiOperation({ summary: 'Delete critic by ID' })
@@ -62,9 +62,9 @@ export class CriticController {
     @Post(':criticId/reviews')
     addReview(
         @Req() req: RequestWithUser,
-        @Body() createReviewDto: CreateReviewDto,
+        @Body() dto: CreateReviewDto,
     ) {
         const userId = req.user.userId;
-        return this.criticService.addReview(userId, createReviewDto);
+        return this.criticService.addReview(userId, dto);
     }
 }
