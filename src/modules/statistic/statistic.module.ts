@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { StatisticEntity } from 'src/database/entities/statistic.entity'
-import { SignboardEntity } from '../signboard/entity/signboard.entity'
+import { StatisticEntity } from './entity/statistic.entity'
+import { StatisticService } from './statistic.service'
+import { StatisticController } from './statistic.controller'
 
 @Module({
-	imports: [TypeOrmModule.forFeature([StatisticEntity, SignboardEntity])],
+	imports: [TypeOrmModule.forFeature([StatisticEntity])],
+	controllers: [StatisticController],
+	providers: [StatisticService],
+	exports: [StatisticService],
 })
 export class StatisticModule {}

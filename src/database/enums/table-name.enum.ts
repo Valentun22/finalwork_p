@@ -1,5 +1,4 @@
 export enum TableNameEnum {
-  // ROLE = 'role',
   FAVORITE = 'favorite',
   MEETINGS = "meetings",
   NEWS = "news",

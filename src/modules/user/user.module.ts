@@ -11,6 +11,6 @@ import { UserController } from './user.controller'
 	imports: [TypeOrmModule.forFeature([UserEntity, RefreshTokenEntity])],
 	controllers: [UserController],
 	providers: [UserService, UserRepository, RefreshTokenRepository],
-	exports: [UserService],
+	exports: [UserService, UserRepository],
 })
 export class UserModule {}

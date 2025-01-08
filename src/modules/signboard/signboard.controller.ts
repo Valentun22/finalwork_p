@@ -15,7 +15,7 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { IUserData } from '../auth/interfaces/user-data.interface';
-import { SignboardService } from './services/signboard.service';
+import { SignboardService } from './signboard.service';
 import { CreateSignboardDto } from './dto/req/create-signboard.dto';
 import { SignboardResDto } from './dto/res/signboard.res.dto';
 import { UpdateSignboardDto } from './dto/req/update-signboard.dto';

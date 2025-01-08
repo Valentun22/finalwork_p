@@ -1,3 +1,4 @@
+import './config/config'
 import { ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
@@ -39,7 +40,7 @@ async function bootstrap() {
 			forbidNonWhitelisted: true,
 		})
 	)
-	const port = 3002
+	const port = 3003
 
 	await app.listen(port, () => {
 		// Logger.log(`Server running on http://${appConfig.host}:${appConfig.port}`)

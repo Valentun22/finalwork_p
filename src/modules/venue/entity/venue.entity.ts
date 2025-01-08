@@ -1,5 +1,5 @@
 import { SignboardEntity } from 'src/modules/signboard/entity/signboard.entity'
-import { Column, Entity, ManyToOne, OneToMany, OneToOne } from 'typeorm'
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm'
 import { BaseModel } from '../../../database/entities/models/base.model'
 import { TableNameEnum } from '../../../database/enums/table-name.enum'
 import { FavoriteEntity } from '../../favorite/entities/favorite.entity'
@@ -73,6 +73,6 @@ export class VenueEntity extends BaseModel {
 	@OneToMany(() => FavoriteEntity, favorite => favorite.venue)
 	favorites: FavoriteEntity[]
 
-	@OneToOne(() => SignboardEntity, entity => entity.venue)
-	signboard?: SignboardEntity
+	@OneToMany(() => SignboardEntity, (signboard) => signboard.venue)
+	signboards: SignboardEntity[]
 }
