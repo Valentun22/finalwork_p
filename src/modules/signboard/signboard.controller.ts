@@ -15,7 +15,6 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { IUserData } from '../auth/interfaces/user-data.interface';
-import { SignboardService } from './signboard.service';
 import { CreateSignboardDto } from './dto/req/create-signboard.dto';
 import { SignboardResDto } from './dto/res/signboard.res.dto';
 import { UpdateSignboardDto } from './dto/req/update-signboard.dto';
@@ -25,6 +24,7 @@ import {UserRoleEnum} from "../../database/enums/roles.enum";
 import {MoreSignboardAllowedGuard} from "./guards/more-signboard-allowed.guard";
 import {RolesGuard} from "../admin-manager/guards/role.guard";
 import {RoleUser} from "../admin-manager/decorators/check.role";
+import {SignboardService} from "./services/signboard.service";
 
 @ApiTags('Signboard')
 @Controller('signboard')

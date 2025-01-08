@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SignboardEntity } from './entity/signboard.entity';
-import { SignboardService } from './signboard.service';
 import { SignboardController } from './signboard.controller';
 import { StatisticEntity } from '../statistic/entity/statistic.entity';
 import { VenueEntity } from '../venue/entity/venue.entity';
@@ -11,6 +10,7 @@ import { StatisticRepository } from '../../repository/services/statistic.reposit
 import { UserEntity } from '../user/entity/user.entity';
 import { UserRepository } from '../../repository/services/user.repository';
 import { MoreSignboardAllowedGuard } from './guards/more-signboard-allowed.guard';
+import {SignboardService} from "./services/signboard.service";
 
 @Module({
     imports: [
