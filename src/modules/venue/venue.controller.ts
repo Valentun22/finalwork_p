@@ -8,9 +8,9 @@ import {
     Delete,
     UseGuards,
     Query,
-    Req,
+    Req, ParseUUIDPipe,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiParam } from '@nestjs/swagger';
+import {ApiTags, ApiOperation, ApiParam, ApiBearerAuth} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import {UserRoleEnum} from "../../database/enums/roles.enum";
 import {UpdateVenueDto} from "./dto/req/update.venue.req.dto";
@@ -21,6 +21,11 @@ import {RolesGuard} from "../admin-manager/guards/role.guard";
 import {RoleUser} from "../admin-manager/decorators/check.role";
 import {SendMessageDto} from "./dto/req/send-message.dto";
 import {QueryVenuesDto} from "./dto/req/query-venues.dto";
+import {CurrentUser} from "../auth/decorators/current-user.decorator";
+import {IUserData} from "../auth/interfaces/user-data.interface";
+import {VenueListReqDto} from "./dto/req/venue-list.req.dto";
+import {VenueListResDto} from "./dto/res/venue-list.res.dto";
+import {VenueResDto} from "./dto/res/venue.res.dto";
 
 @ApiTags('Venue')
 @Controller('venue')
@@ -128,5 +133,23 @@ export class VenueController {
         return await this.venueService.getTopByCategory(category);
     }
 
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Get all venue' })
+    @Get()
+    public async getAllDontFilters(
+        @CurrentUser() userData: IUserData,
+        @Query() query: VenueListReqDto,
+    ): Promise<VenueListResDto> {
+        return await this.venueService.getAllDontFilters(userData, query);
+    }
 
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Get venue by id' })
+    @Get(':venueId')
+    public async getById(
+        @Param('venueId', ParseUUIDPipe) venueId: string,
+        @CurrentUser() userData: IUserData,
+    ): Promise<VenueResDto> {
+        return await this.venueService.getById(userData, venueId);
+    }
 }

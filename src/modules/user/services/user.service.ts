@@ -1,6 +1,6 @@
 import {
 	ConflictException,
-	Injectable,
+	Injectable, NotFoundException,
 	UnprocessableEntityException,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -11,6 +11,7 @@ import { UpdateUserDto } from '../dto/req/update-user.dto'
 import { UserResDto } from '../dto/res/user.res.dto'
 import { UserEntity } from '../entity/user.entity'
 import { UserMapper } from './user.mapper'
+import {BaseUserReqDto} from "../dto/req/base-user.req.dto";
 
 @Injectable()
 export class UserService {
@@ -21,9 +22,16 @@ export class UserService {
 		private readonly refreshTokenRepository: RefreshTokenRepository
 	) {}
 
-	public async findMe(userData: IUserData): Promise<UserResDto> {
-		const entity = await this.userRepository.findOneBy({ id: userData.userId })
-		return UserMapper.toResponseDto(entity)
+	public async findMe(
+		userData: IUserData,
+		dto: BaseUserReqDto
+		): Promise<UserResDto> {
+		const entity = await this.userRepository.findOneBy({ id: userData.userId });
+		await this.userRepository.save(this.userRepository.merge(entity, dto))
+		if (!entity) {
+			throw new NotFoundException('User not found');
+		}
+		return UserMapper.toResponseDto(entity);
 	}
 
 	public async updateMe(

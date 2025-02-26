@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, NotFoundException} from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Like, Repository } from 'typeorm'
 import { CreateVenueDto } from '../dto/req/create.venue.req.dto'
@@ -7,6 +7,14 @@ import { UpdateVenueDto } from '../dto/req/update.venue.req.dto'
 import { VenueEntity } from '../entity/venue.entity'
 import { VenueLikeEntity } from '../entity/venueLike.entity'
 import FindAllOptions from '../interfaces/findAll.interface'
+import {StatisticRepository} from "../../../repository/services/statistic.repository";
+import {StatisticEntity} from "../../../database/entities/statistic.entity";
+import {IUserData} from "../../auth/interfaces/user-data.interface";
+import {VenuesRepository} from "../../../repository/services/venues.repository";
+import {VenueMapper} from "./venue.mapper";
+import {VenueResDto} from "../dto/res/venue.res.dto";
+import {VenueListReqDto} from "../dto/req/venue-list.req.dto";
+import {VenueListResDto} from "../dto/res/venue-list.res.dto";
 
 @Injectable()
 export class VenueService {
@@ -14,12 +22,25 @@ export class VenueService {
 		@InjectRepository(VenueEntity)
 		private readonly venueRepository: Repository<VenueEntity>,
 		@InjectRepository(VenueLikeEntity)
-		private readonly venueLikeRepository: Repository<VenueLikeEntity>
+		private readonly venueLikeRepository: Repository<VenueLikeEntity>,
+		@InjectRepository(StatisticEntity)
+		private readonly statisticRepository: StatisticRepository,
+		private readonly venuesRepository: VenuesRepository,
+
 	) {}
 
 	async create(createVenueDto: CreateVenueDto): Promise<VenueEntity> {
 		const venue = this.venueRepository.create(createVenueDto)
 		return await this.venueRepository.save(venue)
+	}
+
+	public async getAllDontFilters(
+		userData: IUserData,
+		query: VenueListReqDto,
+	): Promise<VenueListResDto> {
+		const [entities, total] = await this.venuesRepository.getAll(query);
+
+		return VenueMapper.ToListResponseDto(entities, total, query);
 	}
 
 	async findAll(options: FindAllOptions): Promise<VenueEntity[]> {
@@ -147,5 +168,19 @@ export class VenueService {
 			order: { rating: 'DESC' },
 			take: 10,
 		})
+	}
+
+	public async getById(
+		userData: IUserData,
+		venueId: string,
+	): Promise<VenueResDto> {
+		const venueEntity =
+			await this.venuesRepository.getVenueById(venueId);
+		if (venueEntity.userId !== userData.userId) {
+			await this.statisticRepository.save(
+				this.statisticRepository.create({ venueId: venueId }),
+			);
+		}
+		return VenueMapper.toResponseDtoById(venueEntity);
 	}
 }

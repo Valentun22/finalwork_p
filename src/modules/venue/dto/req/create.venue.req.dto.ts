@@ -3,9 +3,13 @@ import {
     IsString,
     IsNumber,
     IsArray,
-    IsOptional,
+    IsOptional, Length, IsEnum, IsUUID, ValidateNested,
 } from 'class-validator';
 import {ApiProperty} from "@nestjs/swagger";
+import {Transform, Type} from "class-transformer";
+import {TransformHelper} from "../../../../common/helpers/transform.helper";
+import {StatusTypeEnum} from "../../../../database/enums/status-type.enum";
+import {StatisticEntity} from "../../../../database/entities/statistic.entity";
 
 export class CreateVenueDto {
     @ApiProperty()
@@ -19,6 +23,49 @@ export class CreateVenueDto {
     @IsString()
     @IsOptional()
     image?: string;
+
+    @ApiProperty()
+    @IsString()
+    @Length(3, 50)
+    @Transform(TransformHelper.trim)
+    @Type(() => String)
+    title: string;
+
+    @ApiProperty()
+    @IsString()
+    @Length(0, 5000)
+    @Transform(TransformHelper.trim)
+    @Type(() => String)
+    body: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsEnum(StatusTypeEnum)
+    status: StatusTypeEnum;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsUUID()
+    userId: string;
+
+    @ApiProperty()
+    @IsOptional()
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => StatisticEntity)
+    views?: StatisticEntity[];
+
+    @ApiProperty()
+    @IsOptional()
+    @IsString()
+    additionalInfo?: string;
+
+    @ApiProperty()
+    @IsString()
+    @Length(0, 500)
+    @Transform(TransformHelper.trim)
+    @Type(() => String)
+    description: string;
 
     @ApiProperty({
         description: 'The URL of the user\'s profile picture'
@@ -47,11 +94,6 @@ export class CreateVenueDto {
     @IsArray()
     @IsString({ each: true })
     tags: string[];
-
-    @ApiProperty()
-    @IsString()
-    @IsOptional()
-    description?: string;
 
     @ApiProperty()
     @IsArray()

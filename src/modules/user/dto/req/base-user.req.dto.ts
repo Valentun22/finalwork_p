@@ -25,6 +25,13 @@ export class BaseUserReqDto {
   @Length(0, 500)
   bio?: string;
 
+  @ApiProperty({
+    default: '25',
+    description: '18+',
+  })
+  @IsOptional()
+  public readonly age: number;
+
   @ApiProperty()
   @IsOptional()
   @IsString()

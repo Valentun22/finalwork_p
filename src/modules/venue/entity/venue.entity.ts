@@ -1,11 +1,12 @@
-import { SignboardEntity } from 'src/modules/signboard/entity/signboard.entity'
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm'
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany} from 'typeorm'
 import { BaseModel } from '../../../database/entities/models/base.model'
 import { TableNameEnum } from '../../../database/enums/table-name.enum'
 import { FavoriteEntity } from '../../favorite/entities/favorite.entity'
 import { NewsEntity } from '../../news/entity/news.entity'
 import { ReviewEntity } from '../../review/entities/review.entity'
 import { UserEntity } from '../../user/entity/user.entity'
+import {StatusTypeEnum} from "../../../database/enums/status-type.enum";
+import {StatisticEntity} from "../../statistic/entity/statistic.entity";
 
 @Entity(TableNameEnum.VENUES)
 export class VenueEntity extends BaseModel {
@@ -14,6 +15,15 @@ export class VenueEntity extends BaseModel {
 
 	@Column('text', { nullable: true })
 	image?: string
+
+	@Column('text')
+	body: string
+
+	@Column('text')
+	title: string
+
+	@Column('text', { nullable: true })
+	photos: string[]
 
 	@Column()
 	location: string
@@ -45,8 +55,18 @@ export class VenueEntity extends BaseModel {
 	@Column({ default: 0 })
 	likes: number
 
+	@Column({
+		type: 'enum',
+		enum: StatusTypeEnum,
+		default: StatusTypeEnum.INACTIVE,
+	})
+	status: StatusTypeEnum
+
 	@Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
 	publicationDate: Date
+
+	@Column({ nullable: true })
+	updated_at?: string
 
 	@Column({ type: 'float', nullable: true })
 	rating?: number
@@ -61,6 +81,18 @@ export class VenueEntity extends BaseModel {
 		liveMusic: boolean
 	}
 
+	@OneToMany(() => StatisticEntity, (statistic) => statistic.venue, {
+		nullable: true,
+		cascade: true
+	})
+	statistics: StatisticEntity[]
+
+	@Column()
+	userId: string
+	@ManyToOne(() => UserEntity, user => user.venues)
+	@JoinColumn({ name: 'userId' })
+	user?: UserEntity
+
 	@ManyToOne(() => UserEntity, user => user.venues)
 	owner: UserEntity
 
@@ -72,7 +104,4 @@ export class VenueEntity extends BaseModel {
 
 	@OneToMany(() => FavoriteEntity, favorite => favorite.venue)
 	favorites: FavoriteEntity[]
-
-	@OneToMany(() => SignboardEntity, (signboard) => signboard.venue)
-	signboards: SignboardEntity[]
 }

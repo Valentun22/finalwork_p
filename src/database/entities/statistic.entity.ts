@@ -1,13 +1,14 @@
-import { Column, Entity } from 'typeorm'
+import {Column, Entity, JoinColumn, ManyToOne} from 'typeorm'
 import { TableNameEnum } from '../enums/table-name.enum'
 import { BaseModel } from './models/base.model'
+import {VenueEntity} from "../../modules/venue/entity/venue.entity";
 
 @Entity(TableNameEnum.STATISTICS)
 export class StatisticEntity extends BaseModel {
 	@Column()
-	signboard_id: string
+	venueId: string
 
-	// @ManyToOne(() => SignboardEntity)
-	// @JoinColumn({ name: 'signboard_id' })
-	// signboard: SignboardEntity
+	@ManyToOne(() => VenueEntity)
+	@JoinColumn({ name: 'venueId' })
+	venue: VenueEntity
 }

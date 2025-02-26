@@ -15,7 +15,7 @@ export class SignUpReqDto {
   })
   @IsString()
   @IsNotEmpty()
-  readonly name: string;
+  name: string;
 
   @ApiProperty({
     description: 'User\'s email address',
@@ -23,7 +23,7 @@ export class SignUpReqDto {
   })
   @IsEmail()
   @IsNotEmpty()
-  readonly email: string;
+  email: string;
 
   @ApiProperty({
     description: 'User password',
@@ -31,5 +31,5 @@ export class SignUpReqDto {
   })
   @IsString()
   @IsNotEmpty()
-  readonly password: string;
+  password: string;
 }

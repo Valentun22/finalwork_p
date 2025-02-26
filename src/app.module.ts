@@ -11,7 +11,7 @@ import { NewsModule } from './modules/news/news.module'
 import { DrinkingModule } from './modules/drinking/drinking.module'
 import {RedisModule} from "./repository/redis/redis.module";
 import {PostgresModule} from "./repository/postgres/postgres.module";
-import {SignboardModule} from "./modules/signboard/signboard.module";
+import {AdminManagerModule} from "./modules/admin-manager/admin-manager.module";
 
 @Module({
 	imports: [
@@ -32,6 +32,7 @@ import {SignboardModule} from "./modules/signboard/signboard.module";
 			}),
 			inject: [ConfigService],
 		}),
+		AdminManagerModule,
 		AuthModule,
 		UserModule,
 		CriticModule,
@@ -42,7 +43,6 @@ import {SignboardModule} from "./modules/signboard/signboard.module";
 		NewsModule,
 		VenueModule,
 		DrinkingModule,
-		SignboardModule
 	],
 })
 export class AppModule {}

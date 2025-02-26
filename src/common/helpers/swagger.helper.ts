@@ -17,9 +17,10 @@ const deleteResponses = {
   204: { description: 'No content' },
 };
 
-const mediaResponses = {
-  415: { description: 'Unsupported Media Type' },
-};
+// const mediaResponses = {
+//   415: { description: 'Unsupported Media Type' },
+// };
+//todo перевірити чи потрібно
 
 export class SwaggerHelper {
   static setDefaultResponses(document: OpenAPIObject): void {

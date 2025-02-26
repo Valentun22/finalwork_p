@@ -7,19 +7,19 @@ export class UpdateUserDto {
   })
   @IsString()
   @IsOptional()
-  readonly bio?: string;
+  bio?: string;
 
   @ApiPropertyOptional({
     description: "User name"
   })
   @IsString()
   @IsOptional()
-  readonly name?: string;
+  name?: string;
 
   @ApiPropertyOptional({
     description: 'The URL of the user\'s profile picture'
   })
   @IsUrl()
   @IsOptional()
-  readonly image?: string;
+  image?: string;
 }

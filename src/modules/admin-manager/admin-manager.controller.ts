@@ -20,7 +20,7 @@ import { BaseAdminManagerReqDto } from './dto/req/base-admin-manager.req.dto';
 import {RoleUser} from "./decorators/check.role";
 import {RolesGuard} from "./guards/role.guard";
 
-@ApiTags('Admin/Manager. This tag is for admin roles.')
+@ApiTags('Admin/Manager')
 @RoleUser(UserRoleEnum.ADMIN)
 @ApiBearerAuth()
 @UseGuards(RolesGuard)
@@ -51,27 +51,27 @@ export class AdminManagerController {
   async deleteUser(@Param('userId') userId: string): Promise<void> {
     await this.adminManagerService.deleteUser(userId);
   }
-  @ApiOperation({ summary: 'Block signboard' })
-  @Put(':signboard_id')
-  async blockSignboard(
-    @Param('signboard_id') signboardId: string,
+  @ApiOperation({ summary: 'Block venue' })
+  @Put(':venueId')
+  async blockVenue(
+    @Param('venueId') venueId: string,
   ): Promise<void> {
-    await this.adminManagerService.blockSignboard(signboardId);
+    await this.adminManagerService.blockVenue(venueId);
   }
 
-  @ApiOperation({ summary: 'Unblock signboard' })
-  @Patch(':signboard_id')
-  async unblockSignboard(
-    @Param('signboard_id') signboardId: string,
+  @ApiOperation({ summary: 'Unblock venue' })
+  @Patch(':venueId')
+  async unblockVenue(
+    @Param('venueId') venueId: string,
   ): Promise<void> {
-    await this.adminManagerService.unblockSignboard(signboardId);
+    await this.adminManagerService.unblockVenue(venueId);
   }
 
-  @ApiOperation({ summary: 'Delete signboard' })
-  @Delete(':signboard_id')
-  async deleteSignboard(
-    @Param('signboard_id') signboardId: string,
+  @ApiOperation({ summary: 'Delete venue' })
+  @Delete(':venueId')
+  async deleteVenue(
+    @Param('venueId') venueId: string,
   ): Promise<void> {
-    await this.adminManagerService.deleteSignboard(signboardId);
+    await this.adminManagerService.deleteVenue(venueId);
   }
 }

@@ -5,14 +5,14 @@ import { UserResDto } from '../../user/dto/res/user.res.dto';
 import { BaseAdminManagerReqDto } from '../dto/req/base-admin-manager.req.dto';
 import {AccountTypeEnum} from "../../../database/enums/account-type.enum";
 import {StatusTypeEnum} from "../../../database/enums/status-type.enum";
-import {SignboardRepository} from "../../../repository/services/signboard.repository";
 import {UserRepository} from "../../../repository/services/user.repository";
+import {VenuesRepository} from "../../../repository/services/venues.repository";
 
 @Injectable()
 export class AdminManagerService {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly signboardRepository: SignboardRepository,
+    private readonly venuesRepository: VenuesRepository,
   ) {}
 
   public async setNewRole(
@@ -43,29 +43,28 @@ export class AdminManagerService {
     await this.userRepository.delete(userEntity.id);
   }
 
-  public async blockSignboard(signboard_Id: string): Promise<void> {
+  public async blockVenue(venueId: string): Promise<void> {
     const entity =
-        await this.signboardRepository.findByIdOrThrow(signboard_Id);
+        await this.venuesRepository.findByIdOrThrow(venueId);
     if (entity.status === StatusTypeEnum.BLOCKED) {
-      throw new ConflictException('Signboard is already blocked');
+      throw new ConflictException('Venue is already blocked');
     }
     entity.status = StatusTypeEnum.BLOCKED;
-    await this.signboardRepository.save(entity);
+    await this.venuesRepository.save(entity);
   }
 
-  public async unblockSignboard(signboard_Id: string): Promise<void> {
+  public async unblockVenue(venueId: string): Promise<void> {
     const entity =
-        await this.signboardRepository.findByIdOrThrow(signboard_Id);
+        await this.venuesRepository.findByIdOrThrow(venueId);
     if (entity.status === StatusTypeEnum.ACTIVE) {
-      throw new ConflictException('Signboard is already active');
+      throw new ConflictException('Venue is already active');
     }
     entity.status = StatusTypeEnum.ACTIVE;
-    await this.signboardRepository.save(entity);
+    await this.venuesRepository.save(entity);
   }
 
-  public async deleteSignboard(signboard_Id: string): Promise<void> {
-    const entity =
-      await this.signboardRepository.findByIdOrThrow(signboard_Id);
-    await this.signboardRepository.delete(entity);
+  public async deleteVenue(venueId: string): Promise<void> {
+    const entity = await this.venuesRepository.findByIdOrThrow(venueId);
+    await this.venuesRepository.delete(entity.id);
   }
 }

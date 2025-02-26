@@ -6,6 +6,5 @@ export enum TableNameEnum {
   REVIEWS = "reviews",
   USERS = 'users',
   VENUES = "venues",
-  SIGNBOARD = "signboard",
   STATISTICS = 'statistics',
 }

@@ -15,17 +15,21 @@ import { IUserData } from '../auth/interfaces/user-data.interface';
 import { UserService } from './services/user.service';
 import { UserResDto } from './dto/res/user.res.dto';
 import { UpdateUserDto } from './dto/req/update-user.dto';
+import {BaseUserReqDto} from "./dto/req/base-user.req.dto";
 
 @ApiTags('User')
-@Controller('users')
+@Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get a personal account' })
   @Get('me')
-  public async findMe(@CurrentUser() userData: IUserData): Promise<UserResDto> {
-    return await this.userService.findMe(userData);
+  public async findMe(
+      @CurrentUser() userData: IUserData,
+      @Body() dto: BaseUserReqDto,
+  ): Promise<UserResDto> {
+    return await this.userService.findMe(userData, dto);
   }
 
   @ApiBearerAuth()

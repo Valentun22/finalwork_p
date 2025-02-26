@@ -56,3 +56,5 @@ export class UpdateVenueDto {
         liveMusic: boolean;
     };
 }
+
+//todo добавити те, чого не вистачає

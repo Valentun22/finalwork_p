@@ -1,4 +1,3 @@
-import { SignboardEntity } from 'src/modules/signboard/entity/signboard.entity'
 import { Column, Entity, OneToMany } from 'typeorm'
 import { BaseModel } from '../../../database/entities/models/base.model'
 import { AccountTypeEnum } from '../../../database/enums/account-type.enum'
@@ -48,9 +47,6 @@ export class UserEntity extends BaseModel {
 
 	@OneToMany(() => RefreshTokenEntity, entity => entity.user)
 	refreshTokens?: RefreshTokenEntity[]
-
-	@OneToMany(() => SignboardEntity, signboards => signboards.user)
-	signboards: SignboardEntity[]
 
 	@OneToMany(() => VenueLikeEntity, like => like.user)
 	likedVenues: VenueLikeEntity[]
